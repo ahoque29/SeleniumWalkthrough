@@ -73,18 +73,20 @@
   <ItemGroup>
     <Compile Include="AppConfigReader.cs" />
     <Compile Include="lib\driver_config\SeleniumDriverConfig.cs" />
+    <Compile Include="lib\pages\AP_Website.cs" />
+    <Compile Include="lib\pages\AP_Homepage.cs" />
+    <Compile Include="lib\pages\AP_SigningPage.cs" />
     <Compile Include="tests\SigninTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="lib\pages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

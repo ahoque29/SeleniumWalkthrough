@@ -7,88 +7,59 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SeleniumWalkthrough.lib.pages;
 
 namespace SeleniumWalkthrough
 {
     public class SigninTests
     {
+        private AP_Website AP_Website { get; } = new AP_Website("chrome");
+        
         [Test]
         public void GivenIamOnTheHomePage_WhenIClickTheSigninLink_ThenIGoToTheSignInPage()
         {
-            using (IWebDriver driver = new ChromeDriver())
-            {
-                // Arrange ---
-                // maximise the browser
-                driver.Manage().Window.Maximize();
+            // Arrange ---
+            // maximise the browser
+            AP_Website.MaximizeWindow();
 
+            // navigate to the Site
+            AP_Website.AP_Homepage.Navigate();
 
-
-                // navigate to the Site
-                driver.Navigate().GoToUrl("http://automationpractice.com/");
-
-
-
-                // get reference to SignIn link
-                var loginElement = driver.FindElement(By.ClassName("login"));
-
-
-
-                // Act ---
-                // click sign in link
-                loginElement.Click();
-
-
-
-                // wait
-                Thread.Sleep(5000);
-
-
-
-                // Assert ---
-                // on sign-in page
-                Assert.That(driver.Title, Is.EqualTo("Login - My Store"));
-            }
+            // get reference to SignIn link
+            AP_Website.AP_Homepage.ClickSignInLink();
+            
+            // Assert ---
+            // on sign-in page
+            Assert.That(AP_Website.GetPageTitle(), Is.EqualTo("Login - My Store"));
         }
-        [Test]
-        public void GivenIamOnTheSignInPage_AndIEnterAFourDigitPassword_ThenIClickTheSigninButton_ThenIGetAnErrorMessage()
-        {
-            using (IWebDriver driver = new ChromeDriver())
-            {
-                // Arrange ---
-                // maximise the browser
-                driver.Manage().Window.Maximize();
 
 
+		[Test]
+		public void GivenIamOnTheSignInPage_AndIEnterAFourDigitPassword_ThenIClickTheSigninButton_ThenIGetAnErrorMessage()
+		{
+			// Arrange ---
+			// maximise the browser
+			AP_Website.MaximizeWindow();
 
-                // navigate to the Site
-                driver.Navigate().GoToUrl("http://automationpractice.com/index.php?controller=authentication");
+			// navigate to the Site
+			AP_Website.AP_SigningPage.NavitageToSignIn();
 
+			// get reference to elements
+			AP_Website.AP_SigningPage.SendEmailKeys();
+			AP_Website.AP_SigningPage.SendPasswordKeys();
+			AP_Website.AP_SigningPage.ClickSubmitButton();
 
+			// Assert ---
+			// on sign-in page
+			var textError = AP_Website.AP_SigningPage.GetAlertElement();
+			Assert.That(textError.Text.Contains("Invalid password"));
+		}
 
-                // get reference to elements
-                var emailElement = driver.FindElement(By.Id("email"));
-                var passwordElement = driver.FindElement(By.Id("passwd"));
-                var btnSignInElement = driver.FindElement(By.Id("SubmitLogin"));
-
-
-
-                // Act ---
-                emailElement.SendKeys("testing@snailmail.com");
-                passwordElement.SendKeys("four");
-                btnSignInElement.Click();
-
-
-
-                // wait
-                Thread.Sleep(4000);
-
-
-
-                // Assert ---
-                // on sign-in page
-                var textError = driver.FindElement(By.ClassName("alert"));
-                Assert.That(textError.Text.Contains("Invalid password"));
-            }
-        }
-    }
+		[OneTimeTearDown]
+		public void TearDown()
+		{
+			AP_Website.Driver.Quit();
+			AP_Website.Driver.Dispose();
+		}
+	}
 }
