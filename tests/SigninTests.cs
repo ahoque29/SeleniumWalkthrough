@@ -45,8 +45,8 @@ namespace SeleniumWalkthrough
 			AP_Website.AP_SigningPage.NavitageToSignIn();
 
 			// get reference to elements
-			AP_Website.AP_SigningPage.SendEmailKeys();
-			AP_Website.AP_SigningPage.SendPasswordKeys();
+			AP_Website.AP_SigningPage.SendEmailKeys("tester@testing.com");
+			AP_Website.AP_SigningPage.SendPasswordKeys("1234");
 			AP_Website.AP_SigningPage.ClickSubmitButton();
 
 			// Assert ---

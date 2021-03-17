@@ -24,14 +24,14 @@ namespace SeleniumWalkthrough.lib.pages
 			_driver.Navigate().GoToUrl(_signInUrl);
 		}
 
-		public void SendEmailKeys()
+		public void SendEmailKeys(string email)
 		{
-			_emailElement.SendKeys("tester@testing.com");
+			_emailElement.SendKeys(email);
 		}
 
-		public void SendPasswordKeys()
+		public void SendPasswordKeys(string password)
 		{
-			_passwordElement.SendKeys("1234");
+			_passwordElement.SendKeys(password);
 		}
 
 		public void ClickSubmitButton()
